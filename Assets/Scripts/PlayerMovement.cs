@@ -24,32 +24,11 @@ public class PlayerMovement : MonoBehaviour
         float horizontal = Input.GetAxisRaw("KB Horizontal");
         float vertical = Input.GetAxisRaw("KB Vertical");
 
-        //direction = new Vector3(horizontal, 0, vertical).normalized;
         direction = transform.forward * vertical + transform.right * horizontal;
 
         charCont.Move(direction.normalized * speed * Time.deltaTime);
 
-        //transform.Translate(direction * speed * Time.deltaTime);
         transform.SetLocalPositionAndRotation(new Vector3(transform.position.x, 0, transform.position.z), transform.rotation);
-
-
-
-/*        if (Input.GetKey(KeyCode.UpArrow))
-        {
-            transform.Translate(Vector3.forward * 5 * Time.deltaTime);
-        }
-        if (Input.GetKey(KeyCode.LeftArrow))
-        {
-            transform.Translate(Vector3.left * 5 * Time.deltaTime);
-        }
-        if (Input.GetKey(KeyCode.RightArrow))
-        {
-            transform.Translate(Vector3.left * (-5) * Time.deltaTime);
-        }
-        if (Input.GetKey(KeyCode.DownArrow))
-        {
-            transform.Translate(Vector3.forward * (-5) * Time.deltaTime);
-        }*/
 
 
         turn.x += Input.GetAxis("Mouse X");
