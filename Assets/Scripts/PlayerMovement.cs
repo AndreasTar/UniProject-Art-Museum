@@ -6,7 +6,7 @@ public class PlayerMovement : MonoBehaviour
 {
     Vector2 turn;
 
-    public float speed = 5f;
+    public float speed = 100f;
     public CharacterController charCont;
     Vector3 direction = Vector3.zero;
 
