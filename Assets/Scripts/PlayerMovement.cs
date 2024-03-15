@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
 
     public float speed = 100f;
     public CharacterController charCont;
+    [SerializeField] float lockedHeight = 0;
     Vector3 direction = Vector3.zero;
 
     // Start is called before the first frame update
@@ -28,7 +29,7 @@ public class PlayerMovement : MonoBehaviour
 
         charCont.Move(direction.normalized * speed * Time.deltaTime);
 
-        transform.SetLocalPositionAndRotation(new Vector3(transform.position.x, 0, transform.position.z), transform.rotation);
+        transform.SetLocalPositionAndRotation(new Vector3(transform.position.x, lockedHeight, transform.position.z), transform.rotation);
 
 
         turn.x += Input.GetAxis("Mouse X");
