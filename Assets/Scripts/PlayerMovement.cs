@@ -6,7 +6,7 @@ public class PlayerMovement : MonoBehaviour
 {
     Vector2 turn;
 
-    public float speed = 100f;
+    public float speed = 500f;
     public CharacterController charCont;
     [SerializeField] float lockedHeight = 0;
     Vector3 direction = Vector3.zero;
