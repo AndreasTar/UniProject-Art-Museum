@@ -32,8 +32,8 @@ public class PlayerMovement : MonoBehaviour
         transform.SetLocalPositionAndRotation(new Vector3(transform.position.x, lockedHeight, transform.position.z), transform.rotation);
 
 
-        turn.x += (float)0.25*speed*(Input.GetAxis("Mouse X"));
-        turn.y += (float)0.25*speed * Input.GetAxis("Mouse Y");
+        turn.x += (float)0.1*speed*(Input.GetAxis("Mouse X"));
+        turn.y += (float)0.1*speed * Input.GetAxis("Mouse Y");
         transform.rotation = Quaternion.Euler(-turn.y, turn.x, 0);
     }
 
