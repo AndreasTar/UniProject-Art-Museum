@@ -6,7 +6,8 @@ public class PlayerMovement : MonoBehaviour
 {
     Vector2 turn;
 
-    public float speed = 500f;
+    public float speed = 50f;
+    public float sensitivity = 4f;
     public CharacterController charCont;
     [SerializeField] float lockedHeight = 0;
     Vector3 direction = Vector3.zero;
@@ -29,12 +30,15 @@ public class PlayerMovement : MonoBehaviour
 
         charCont.Move(direction.normalized * speed * Time.deltaTime);
 
-        transform.SetLocalPositionAndRotation(new Vector3(transform.position.x, lockedHeight, transform.position.z), transform.rotation);
-
-
-        turn.x += (float)0.1*speed*(Input.GetAxis("Mouse X"));
-        turn.y += (float)0.1*speed * Input.GetAxis("Mouse Y");
+        turn.x += sensitivity * Input.GetAxis("Mouse X");
+        turn.y += sensitivity * Input.GetAxis("Mouse Y");
+        turn.y = Mathf.Clamp(turn.y, -65.0f, 65.0f);
         transform.rotation = Quaternion.Euler(-turn.y, turn.x, 0);
+
+        transform.SetLocalPositionAndRotation(new Vector3(transform.position.x, lockedHeight, transform.position.z),
+            transform.rotation
+        );
+
     }
 
 }
