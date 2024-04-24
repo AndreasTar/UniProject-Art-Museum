@@ -14,6 +14,9 @@ public class PlayerMovement : MonoBehaviour
     public float speed = 50f;
     public float sensitivity = 3f;
     public CharacterController charCont;
+
+    public GameObject canvas_intro;
+
     [SerializeField] float lockedHeight = 0;
     Vector3 direction = Vector3.zero;
 
@@ -33,6 +36,13 @@ public class PlayerMovement : MonoBehaviour
     {
         // Lock the cursor inside the window
         Cursor.lockState = CursorLockMode.Locked;
+
+        // cheems addition
+        canvas_intro = GameObject.FindWithTag("Intro_Canvas");
+        if (canvas_intro != null){
+            canvas_intro.SetActive(false);
+        }
+
         makeAllQuestions();
     }
 
@@ -53,7 +63,6 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetButtonDown("KB Interact"))
         {
             RaycastHit rayInfo;
-            Debug.Log("sending ray");
 
             if (Physics.Raycast(pos, forw, out rayInfo, 80.0f))
             {
@@ -68,10 +77,9 @@ public class PlayerMovement : MonoBehaviour
                 {
                     // if first time, show message
                     Debug.Log("found door");
+
                     // if not first time, compare stored painting, show question etc
                     handleDoorInteraction();
-                } else {
-                    Debug.Log("ray found nothing");
                 }
             }
         }
@@ -115,28 +123,19 @@ public class PlayerMovement : MonoBehaviour
 
     void handleExhibitInteraction()
     {
-        Debug.Log("maybe??????");
+        Debug.Log("handle exhibit");
     }
 
     void handleDoorInteraction()
     {
-        if (firstInteraction) {
-            GameObject canvasObject = GameObject.FindWithTag("Intro_Canvas");
-            
-            Debug.Log("handle door interaction");
+        if (firstInteraction) {            
 
-            if (canvasObject != null) {
-                Canvas canvas = canvasObject.GetComponent<Canvas>();
+            if (canvas_intro != null) {
+                canvas_intro.SetActive(true);
 
-                Debug.Log("found canvas object");
-
-                if (canvas != null) {
-                    Debug.Log("in");
-                    Text intro_text = canvas.GetComponentInChildren<Text>();
-                    intro_text.text = "something something";
-
-                    firstInteraction = false;
-                }
+                firstInteraction = false;
+                // intro text displayed here
+                StartCoroutine(intro_delay(canvas_intro,4));
             }
         }
 
@@ -153,4 +152,10 @@ public class PlayerMovement : MonoBehaviour
 
         // show question info etc
     }
+
+    private IEnumerator intro_delay(GameObject g, int seconds) {
+        yield return new WaitForSeconds(seconds);
+        g.SetActive(false);
+    }
+   
 }
