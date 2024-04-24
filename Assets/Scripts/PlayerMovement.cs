@@ -4,6 +4,7 @@ using System.Linq;
 using Unity.VisualScripting;
 using UnityEditor.Search;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -23,8 +24,6 @@ public class PlayerMovement : MonoBehaviour
     Question[] questions;
     Question currentQuestion;
 
-
-
     // Start is called before the first frame update
     void Start()
     {
@@ -40,20 +39,27 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E))
         {
             RaycastHit rayInfo;
+            Debug.Log("sending ray");
+
             if (Physics.Raycast(transform.position, transform.forward, out rayInfo, 2.0f))
             {
                 if (rayInfo.transform.CompareTag("Exhibit"))
                 {
+                    Debug.Log("found exhibit");
                     // store the painting info for the question
                     handleExhibitInteraction();
                 } 
                 else if (rayInfo.transform.CompareTag("Door"))
                 {
                     // if first time, show message
+                    Debug.Log("found door");
                     // if not first time, compare stored painting, show question etc
                     handleDoorInteraction();
+                } else {
+                    Debug.Log("ray found nothing");
                 }
             }
+            
         }
 
         float horizontal = Input.GetAxisRaw("KB Horizontal");
@@ -93,15 +99,29 @@ public class PlayerMovement : MonoBehaviour
 
     void handleExhibitInteraction()
     {
-
+        
     }
 
     void handleDoorInteraction()
     {
-        if (firstInteraction)
-        {
-            // show ui and first question
-            firstInteraction = false;
+        if (firstInteraction) {
+            GameObject canvasObject = GameObject.FindWithTag("Intro_Canvas");
+            
+            Debug.Log("handle door interaction");
+
+            if (canvasObject != null) {
+                Canvas canvas = canvasObject.GetComponent<Canvas>();
+
+                Debug.Log("found canvas object");
+
+                if (canvas != null) {
+                    Debug.Log("in");
+                    Text intro_text = canvas.GetComponentInChildren<Text>();
+                    intro_text.text = "something something";
+
+                    firstInteraction = false;
+                }
+            }
         }
 
         if (currentQuestion.correctExhibitIndexes.Contains(lastInteractedExhibitIndex))

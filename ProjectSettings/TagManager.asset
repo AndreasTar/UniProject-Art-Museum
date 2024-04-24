@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Door
   - Exhibit
+  - Intro_Canvas
   layers:
   - Default
   - TransparentFX
