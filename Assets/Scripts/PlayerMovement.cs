@@ -48,8 +48,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        //print("drawing gizmo");
-        //Gizmos.DrawLine(transform.position, transform.forward * 30);
         Gizmos.DrawRay(pos, forw*30);
     }
 
