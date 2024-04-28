@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -5,6 +6,8 @@ using Unity.VisualScripting;
 using UnityEditor.Search;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEngine.Random;
+using Random = UnityEngine.Random;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -24,7 +27,8 @@ public class PlayerMovement : MonoBehaviour
     bool firstInteraction = true;
     int lastInteractedExhibitIndex = -1;
 
-    Question[] questions;
+    //Question[] questions;
+    List<Question> questions = new List<Question>();
     Question currentQuestion;
 
     Vector3 pos;    // FOR DEBUG, WILL REMOVE
@@ -64,12 +68,13 @@ public class PlayerMovement : MonoBehaviour
 
             if (Physics.Raycast(pos, forw, out rayInfo, 80.0f))
             {
+                Debug.ClearDeveloperConsole();
                 Debug.Log("HIT");
                 if (rayInfo.transform.gameObject.CompareTag("Exhibit"))
                 {
                     Debug.Log("found exhibit");
                     // store the painting info for the question
-                    handleExhibitInteraction();
+                    handleExhibitInteraction(rayInfo.transform.gameObject);
                 } 
                 else if (rayInfo.transform.gameObject.CompareTag("Door"))
                 {
@@ -85,7 +90,7 @@ public class PlayerMovement : MonoBehaviour
         float horizontal = Input.GetAxisRaw("KB Horizontal");
         float vertical = Input.GetAxisRaw("KB Vertical");
 
-        direction = transform.forward * vertical + transform.right * horizontal;
+        direction = new Vector3(transform.forward.x, 0, transform.forward.z) * vertical + transform.right * horizontal;
 
         charCont.Move(direction.normalized * speed * Time.deltaTime);
 
@@ -116,12 +121,37 @@ public class PlayerMovement : MonoBehaviour
 
     void makeAllQuestions()
     {
-        questions.Append(new Question("find a painting with a kokori", new int[] { 9 } ));
+        questions.Add(new Question("find a painting with a kokori", new int[] { 9 } ));
+
+        // at the end
+        currentQuestion = questions[Range(0, questions.Count)];
+
     }
 
-    void handleExhibitInteraction()
+    void handleExhibitInteraction(GameObject go)
     {
-        Debug.Log("handle exhibit");
+        string name = go.name;
+
+        name = name.TrimStart("painting");
+        name = name.TrimStart("tag");
+
+        int ind = Int16.Parse(name);
+        Debug.Log("LOOKING " + ind);
+        Debug.Log(currentQuestion.correctExhibitIndexes);
+
+        if (currentQuestion.correctExhibitIndexes.Contains(ind))
+        {
+            correctQuestions ++;
+            if (correctQuestions == 5) // random number
+            {
+                // show completion and exit the game or whatever
+            }
+            Debug.Log("CORRECT " + correctQuestions);
+            questions.Remove(currentQuestion);
+            currentQuestion = questions[Range(0, questions.Count)];
+            // show next question
+            
+        }
     }
 
     void handleDoorInteraction()
@@ -133,7 +163,7 @@ public class PlayerMovement : MonoBehaviour
 
                 firstInteraction = false;
                 // intro text displayed here
-                StartCoroutine(intro_delay(canvas_intro,4));
+                StartCoroutine(deactivateAfterDelay(canvas_intro,4));
             }
         }
 
@@ -151,7 +181,7 @@ public class PlayerMovement : MonoBehaviour
         // show question info etc
     }
 
-    private IEnumerator intro_delay(GameObject g, int seconds) {
+    private IEnumerator deactivateAfterDelay(GameObject g, int seconds) {
         yield return new WaitForSeconds(seconds);
         g.SetActive(false);
     }
