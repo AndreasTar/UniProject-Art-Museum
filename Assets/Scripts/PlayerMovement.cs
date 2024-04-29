@@ -4,11 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
-using UnityEditor.Search;
 using UnityEngine;
-using UnityEngine.UI;
 using static UnityEngine.Random;
-using Random = UnityEngine.Random;
+
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -26,7 +24,6 @@ public class PlayerMovement : MonoBehaviour
 
     int correctQuestions = 0;
     bool firstInteraction = true;
-    int lastInteractedExhibitIndex = -1;
 
     //Question[] questions;
     List<Question> questions = new List<Question>();
@@ -52,7 +49,10 @@ public class PlayerMovement : MonoBehaviour
     public GameObject k8;
     public GameObject k9;
 
+    GameObject[] keyUI;
+
     bool isPlayerActive = false;
+    bool exitable = false;
 
 
     // Start is called before the first frame update
@@ -60,12 +60,7 @@ public class PlayerMovement : MonoBehaviour
     {
         // Lock the cursor inside the window
         Cursor.lockState = CursorLockMode.Confined;
-
-        // cheems addition
-        canvas_intro = GameObject.FindWithTag("Intro_Canvas");
-        if (canvas_intro != null){
-            canvas_intro.SetActive(false);
-        }
+        keyUI = new GameObject[10]{ k0, k1, k2, k3, k4, k5, k6, k7, k8, k9 };
 
         makeAllQuestions();
 
@@ -168,44 +163,49 @@ public class PlayerMovement : MonoBehaviour
 
         if (currentQuestion.correctExhibitIndexes.Contains(ind))
         {
+            keyUI[correctQuestions].SetActive(false);
             correctQuestions ++;
-            if (correctQuestions == 5) // random number
+            if (correctQuestions == 10) // random number
             {
-                // show completion and exit the game or whatever
+                // set door as exitable
+                currentQuestion = new Question("", new int[]{});
+                exitable = true;
+                return;
             }
             Debug.Log("CORRECT " + correctQuestions);
             questions.Remove(currentQuestion);
             currentQuestion = questions[Range(0, questions.Count)];
             // show next question
-            
+            GameObject ui = keyUI[correctQuestions];
+            ui.GetComponentInChildren<TextMeshPro>(true).SetText(currentQuestion.question);
+            ui.SetActive(true);
+
         }
     }
 
     void handleDoorInteraction()
     {
-        if (firstInteraction) {            
+        if (firstInteraction) {
 
-            if (canvas_intro != null) {
-                canvas_intro.SetActive(true);
+            Cursor.lockState = CursorLockMode.Confined;
+            isPlayerActive = false;
 
-                firstInteraction = false;
-                // intro text displayed here
-                StartCoroutine(deactivateAfterDelay(canvas_intro,4));
-            }
+            intro.SetActive(true);
+
+            firstInteraction = false;
+            // intro text displayed here
+            //StartCoroutine(deactivateAfterDelay(intro,4));
         }
-
-        if (currentQuestion.correctExhibitIndexes.Contains(lastInteractedExhibitIndex))
+        else if (exitable)
         {
-            correctQuestions++;
-            // set next question by changing currentQuestion
+            // if all questions answered, show exit and exit
         }
-
-        if (correctQuestions >= 10)
+        else
         {
-            // show exit ui and exit
+            Cursor.lockState = CursorLockMode.Confined;
+            isPlayerActive = false;
+            keyUI[correctQuestions].SetActive(true);
         }
-
-        // show question info etc
     }
 
     public void handleInstructions()
@@ -213,23 +213,28 @@ public class PlayerMovement : MonoBehaviour
         //temp
         Debug.Log("pepeporpeorpeorpoe");
         instr.SetActive(false);
-        k0.GetComponentInChildren<TextMeshPro>(true).SetText(currentQuestion.question);
-        k0.SetActive(true);
-
-        isPlayerActive = true;
-        Cursor.lockState = CursorLockMode.Locked;
     }
 
     public void handleIntro()
     {
         //temp
         Debug.Log("pkmgkanfdgjndfkjngsjdh");
+        intro.SetActive(false);
+
+        k0.GetComponentInChildren<TextMeshPro>(true).SetText(currentQuestion.question);
+        k0.SetActive(true);
+
+        isPlayerActive = true;
+        Cursor.lockState = CursorLockMode.Locked;
+
     }
 
     public void handleExit()
     {
         //temp
         Debug.Log("exititiiningigg");
+        Application.Quit();
+        
     }
 
     private IEnumerator deactivateAfterDelay(GameObject g, int seconds) {
