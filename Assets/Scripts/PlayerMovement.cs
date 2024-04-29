@@ -77,6 +77,12 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!isPlayerActive)
         {
+            if (Input.GetButtonDown("KB Interact"))
+            {
+                keyUI[correctQuestions].SetActive(false);
+                isPlayerActive = true;
+                Cursor.lockState = CursorLockMode.Locked;
+            }
             return;
         }
 
@@ -90,20 +96,13 @@ public class PlayerMovement : MonoBehaviour
 
             if (Physics.Raycast(pos, forw, out rayInfo, 80.0f))
             {
-                Debug.ClearDeveloperConsole();
-                Debug.Log("HIT");
                 if (rayInfo.transform.gameObject.CompareTag("Exhibit"))
                 {
-                    Debug.Log("found exhibit");
                     // store the painting info for the question
                     handleExhibitInteraction(rayInfo.transform.gameObject);
                 } 
                 else if (rayInfo.transform.gameObject.CompareTag("Door"))
                 {
-                    // if first time, show message
-                    Debug.Log("found door");
-
-                    // if not first time, compare stored painting, show question etc
                     handleDoorInteraction();
                 }
             }
@@ -175,6 +174,7 @@ public class PlayerMovement : MonoBehaviour
             Debug.Log("CORRECT " + correctQuestions);
             questions.Remove(currentQuestion);
             currentQuestion = questions[Range(0, questions.Count)];
+
             // show next question
             GameObject ui = keyUI[correctQuestions];
             ui.GetComponentInChildren<TextMeshPro>(true).SetText(currentQuestion.question);
@@ -209,6 +209,7 @@ public class PlayerMovement : MonoBehaviour
         {
             Cursor.lockState = CursorLockMode.Confined;
             isPlayerActive = false;
+
             keyUI[correctQuestions].SetActive(true);
         }
     }
@@ -219,6 +220,7 @@ public class PlayerMovement : MonoBehaviour
         Debug.Log("pepeporpeorpeorpoe");
         instr.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
+        isPlayerActive = true;
     }
 
     public void handleIntro()
@@ -227,11 +229,11 @@ public class PlayerMovement : MonoBehaviour
         Debug.Log("pkmgkanfdgjndfkjngsjdh");
         intro.SetActive(false);
 
-        k0.GetComponentInChildren<TextMeshPro>(true).SetText(currentQuestion.question);
+        k0.GetComponentInChildren<TextMeshProUGUI>(true).SetText(currentQuestion.question);
         k0.SetActive(true);
 
-        isPlayerActive = true;
-        Cursor.lockState = CursorLockMode.Locked;
+        //isPlayerActive = true;
+        //Cursor.lockState = CursorLockMode.Locked;
 
     }
 

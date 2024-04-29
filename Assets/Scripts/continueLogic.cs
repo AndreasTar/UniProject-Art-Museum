@@ -9,7 +9,9 @@ public class continueLogic : MonoBehaviour
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.E)) {
-            SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(1));
+            SceneManager.LoadScene("SampleScene");
+            Debug.Log("Changing scene");
+            SceneManager.SetActiveScene(SceneManager.GetSceneByName("SampleScene"));
         }
         else if (Input.GetKeyDown(KeyCode.Escape))
         {
