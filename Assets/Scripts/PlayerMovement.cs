@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEditor.Search;
 using UnityEngine;
@@ -35,11 +36,30 @@ public class PlayerMovement : MonoBehaviour
     Vector3 rot;    // FOR DEBUG, WILL REMOVE
     Vector3 forw;   // FOR DEBUG, WILL REMOVE
 
+    // very stupid and hacky way to do it but yolo lmfao
+    public GameObject intro;
+    public GameObject instr;
+    public GameObject exit;
+    //public GameObject logo; // MOVE TO NEW SCENE
+    public GameObject k0;
+    public GameObject k1;
+    public GameObject k2;
+    public GameObject k3;
+    public GameObject k4;
+    public GameObject k5;
+    public GameObject k6;
+    public GameObject k7;
+    public GameObject k8;
+    public GameObject k9;
+
+    bool isPlayerActive = false;
+
+
     // Start is called before the first frame update
     void Start()
     {
         // Lock the cursor inside the window
-        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.lockState = CursorLockMode.Confined;
 
         // cheems addition
         canvas_intro = GameObject.FindWithTag("Intro_Canvas");
@@ -48,6 +68,8 @@ public class PlayerMovement : MonoBehaviour
         }
 
         makeAllQuestions();
+
+        instr.SetActive(true);
     }
 
     private void OnDrawGizmos()
@@ -58,6 +80,11 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        if (!isPlayerActive)
+        {
+            return;
+        }
+
         pos = transform.position;               // FOR DEBUG, WILL REMOVE
         rot = transform.rotation.eulerAngles;   // FOR DEBUG, WILL REMOVE
         forw = transform.forward;               // FOR DEBUG, WILL REMOVE
@@ -179,6 +206,30 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // show question info etc
+    }
+
+    public void handleInstructions()
+    {
+        //temp
+        Debug.Log("pepeporpeorpeorpoe");
+        instr.SetActive(false);
+        k0.GetComponentInChildren<TextMeshPro>(true).SetText(currentQuestion.question);
+        k0.SetActive(true);
+
+        isPlayerActive = true;
+        Cursor.lockState = CursorLockMode.Locked;
+    }
+
+    public void handleIntro()
+    {
+        //temp
+        Debug.Log("pkmgkanfdgjndfkjngsjdh");
+    }
+
+    public void handleExit()
+    {
+        //temp
+        Debug.Log("exititiiningigg");
     }
 
     private IEnumerator deactivateAfterDelay(GameObject g, int seconds) {
