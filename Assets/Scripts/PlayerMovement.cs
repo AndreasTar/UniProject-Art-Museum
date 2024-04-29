@@ -199,6 +199,11 @@ public class PlayerMovement : MonoBehaviour
         else if (exitable)
         {
             // if all questions answered, show exit and exit
+            Cursor.lockState = CursorLockMode.Confined;
+            isPlayerActive = false;
+
+            k9.SetActive(false);
+            exit.SetActive(true);
         }
         else
         {
@@ -213,6 +218,7 @@ public class PlayerMovement : MonoBehaviour
         //temp
         Debug.Log("pepeporpeorpeorpoe");
         instr.SetActive(false);
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     public void handleIntro()
