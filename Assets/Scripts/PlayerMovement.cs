@@ -17,8 +17,6 @@ public class PlayerMovement : MonoBehaviour
     public float sensitivity = 3f;
     public CharacterController charCont;
 
-    public GameObject canvas_intro;
-
     [SerializeField] float lockedHeight = 0;
     Vector3 direction = Vector3.zero;
 
@@ -54,6 +52,8 @@ public class PlayerMovement : MonoBehaviour
     bool isPlayerActive = false;
     bool exitable = false;
 
+    RaycastHit rayInfo;
+
 
     // Start is called before the first frame update
     void Start()
@@ -70,6 +70,7 @@ public class PlayerMovement : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.DrawRay(pos, forw*80);
+        Gizmos.DrawSphere(rayInfo.point, 0.5f);
     }
 
 
@@ -87,15 +88,14 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
-        pos = transform.gameObject.GetComponentInChildren<Camera>().transform.position;               // FOR DEBUG, WILL REMOVE
+        pos = gameObject.GetComponentInChildren<Camera>().transform.position;               // FOR DEBUG, WILL REMOVE
         rot = transform.rotation.eulerAngles;   // FOR DEBUG, WILL REMOVE
-        forw = transform.gameObject.GetComponentInChildren<Camera>().transform.forward;               // FOR DEBUG, WILL REMOVE
+        forw = gameObject.GetComponentInChildren<Camera>().transform.forward;               // FOR DEBUG, WILL REMOVE
 
         if (Input.GetButtonDown("KB Interact"))
         {
-            RaycastHit rayInfo;
-
-            if (Physics.Raycast(pos, forw, out rayInfo, 80.0f, 2))
+            Debug.Log("hmmmmmmm?");
+            if (Physics.Raycast(pos, forw, out rayInfo, 80.0f))
             {
                 Debug.Log("pew");
                 if (rayInfo.transform.gameObject.CompareTag("Exhibit"))
