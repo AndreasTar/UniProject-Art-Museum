@@ -37,7 +37,7 @@ public class PlayerMovement : MonoBehaviour
     public GameObject intro;
     public GameObject instr;
     public GameObject exit;
-    //public GameObject logo; // MOVE TO NEW SCENE
+
     public GameObject k0;
     public GameObject k1;
     public GameObject k2;
@@ -69,15 +69,16 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.DrawRay(pos, forw*30);
+        Gizmos.DrawRay(pos, forw*80);
     }
 
+
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         if (!isPlayerActive)
         {
-            if (Input.GetButtonDown("KB Interact"))
+            if (Input.GetButtonDown("KB Interact") && !intro.activeSelf && !instr.activeSelf)
             {
                 keyUI[correctQuestions].SetActive(false);
                 isPlayerActive = true;
@@ -86,16 +87,17 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
-        pos = transform.position;               // FOR DEBUG, WILL REMOVE
+        pos = transform.gameObject.GetComponentInChildren<Camera>().transform.position;               // FOR DEBUG, WILL REMOVE
         rot = transform.rotation.eulerAngles;   // FOR DEBUG, WILL REMOVE
-        forw = transform.forward;               // FOR DEBUG, WILL REMOVE
+        forw = transform.gameObject.GetComponentInChildren<Camera>().transform.forward;               // FOR DEBUG, WILL REMOVE
 
         if (Input.GetButtonDown("KB Interact"))
         {
             RaycastHit rayInfo;
 
-            if (Physics.Raycast(pos, forw, out rayInfo, 80.0f))
+            if (Physics.Raycast(pos, forw, out rayInfo, 80.0f, 2))
             {
+                Debug.Log("pew");
                 if (rayInfo.transform.gameObject.CompareTag("Exhibit"))
                 {
                     // store the painting info for the question
@@ -104,6 +106,13 @@ public class PlayerMovement : MonoBehaviour
                 else if (rayInfo.transform.gameObject.CompareTag("Door"))
                 {
                     handleDoorInteraction();
+                }
+                else if (rayInfo.transform.gameObject.CompareTag("Player"))
+                {
+                    Debug.Log("hitting the player");
+                }
+                else { 
+                    Debug.Log("idk what i hit"); 
                 }
             }
         }
@@ -122,7 +131,8 @@ public class PlayerMovement : MonoBehaviour
         turn.y = Mathf.Clamp(turn.y, -65.0f, 65.0f);
         transform.rotation = Quaternion.Euler(-turn.y, turn.x, 0);
 
-        transform.SetLocalPositionAndRotation(new Vector3(transform.position.x, lockedHeight, transform.position.z),
+        transform.SetLocalPositionAndRotation(
+            new Vector3(transform.position.x, lockedHeight, transform.position.z),
             transform.rotation
         );
 
@@ -216,8 +226,6 @@ public class PlayerMovement : MonoBehaviour
 
     public void handleInstructions()
     {
-        //temp
-        Debug.Log("pepeporpeorpeorpoe");
         instr.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
         isPlayerActive = true;
@@ -225,8 +233,6 @@ public class PlayerMovement : MonoBehaviour
 
     public void handleIntro()
     {
-        //temp
-        Debug.Log("pkmgkanfdgjndfkjngsjdh");
         intro.SetActive(false);
 
         k0.GetComponentInChildren<TextMeshProUGUI>(true).SetText(currentQuestion.question);
