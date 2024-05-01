@@ -32,6 +32,8 @@ public class PlayerMovement : MonoBehaviour
     public GameObject instr;
     public GameObject exit;
     public GameObject wrong;
+    // cheems addition
+    public GameObject press_door;
 
     public GameObject k0;
     public GameObject k1;
@@ -142,7 +144,27 @@ public class PlayerMovement : MonoBehaviour
 
     void makeAllQuestions()
     {
-        questions.Add(new Question("find a painting with a kokori", new int[] { 9 } ));
+        // cheems addition
+        questions.Add(new Question("Βρες ένα πίνακα που απεικονίζει ένα κόκορα", new int[] { 9 } ));
+        questions.Add(new Question("Βρές ένα πίνακα με λουλούδια", new int[] {29, 20, 8} ));
+        questions.Add(new Question("Βρές ένα πίνακα με μια μοτοσικλέτα", new int[] { 41 } ));
+        questions.Add(new Question("Βρές ένα πίνακα με 3 πορτρέτα", new int[] { 1, 31, 42 } ));
+        questions.Add(new Question("Βρές ένα πίνακα με μια ξαπλωμένη γυναίκα", new int[] { 2, 43 } ));
+        questions.Add(new Question("Βρές ένα πίνακα που περιέχει 2 παιδιά που παίζουν ποδόσφαιρο", new int[] { 36 } ));
+        questions.Add(new Question("Βρές ένα πίνακα με μια βάρκα έξω από το νερό", new int[] { 37 } ));
+        questions.Add(new Question("Βρές ένα πίνακα με ένα ναύτη", new int[] { 40, 5 } ));
+        questions.Add(new Question("Βρές ένα πίνακα με 3 γυναικείες μορφές", new int[] { 42 } ));
+        questions.Add(new Question("Βρές ένα πίνακα με ένα αυτοκίνητο Formula 1", new int[] { 45 } ));
+        questions.Add(new Question("Βρές ένα πίνακα με ένα ζευγάρι", new int[] { 48, 17 } ));
+        questions.Add(new Question("Βρές ένα πίνακα με κεντρικό θέμα κάποια έπιπλα", new int[] { 49 } ));
+        questions.Add(new Question("Βρές ένα πίνακα που απεικονίζει μια ναυμαχία", new int[] { 50 } ));
+        questions.Add(new Question("Βρές ένα πίνακα με φρούτα", new int[] { 51 } ));
+        questions.Add(new Question("Βρές ένα πίνακα με μια γυναίκα σε ένα ποδήλατο", new int[] { 22 } ));
+        questions.Add(new Question("Βρές ένα πίνακα με χρυσό χρώμα", new int[] { 17 } ));
+        questions.Add(new Question("Βρές ένα πίνακα με μια γυναίκα σε προφίλ", new int[] { 16 } ));
+
+        questions.Add(new Question("Βρές ένα πίνακα ζωγραφισμένο με πενάκι", new int[] { 1, 2, 18} ));
+        questions.Add(new Question("Βρές ένα πίνακα ζωγραφισμένο με ακρυλικό", new int[] { 17, 23, 24, 25, 32, 34, 37, 41, 45, 48} ));
 
         // at the end
         currentQuestion = questions[Range(0, questions.Count)];
@@ -183,9 +205,19 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            wrong.SetActive(true);
-            StopAllCoroutines();
-            StartCoroutine(deactivateAfterDelay(wrong, 2f));
+            // cheems modification 
+            if (!firstInteraction) {
+                wrong.SetActive(true);
+                StopAllCoroutines();
+                StartCoroutine(deactivateAfterDelay(wrong, 2f));
+            } else {
+                // cheems addition
+                print("go press the door");
+                press_door.SetActive(true);
+                StopAllCoroutines();
+                StartCoroutine(deactivateAfterDelay(press_door, 2f));
+            }
+            
         }
     }
 
