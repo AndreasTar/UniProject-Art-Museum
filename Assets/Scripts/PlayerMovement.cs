@@ -32,8 +32,6 @@ public class PlayerMovement : MonoBehaviour
     public GameObject instr;
     public GameObject exit;
     public GameObject wrong;
-    // cheems addition
-    public GameObject press_door;
 
     public GameObject k0;
     public GameObject k1;
@@ -180,13 +178,19 @@ public class PlayerMovement : MonoBehaviour
 
         int ind = Int16.Parse(name);
         Debug.Log("LOOKING " + ind);
-        Debug.Log(currentQuestion.correctExhibitIndexes.ToString());
+
+        string t = "";
+        foreach (int i in currentQuestion.correctExhibitIndexes)
+        {
+            t += i+" ";
+        }
+        Debug.Log(t);
 
         if (currentQuestion.correctExhibitIndexes.Contains(ind))
         {
             keyUI[correctQuestions].SetActive(false);
             correctQuestions ++;
-            if (correctQuestions == 10) // random number
+            if (correctQuestions == 1) // random number
             {
                 // set door as exitable
                 currentQuestion = new Question("", new int[]{});
@@ -198,26 +202,19 @@ public class PlayerMovement : MonoBehaviour
             currentQuestion = questions[Range(0, questions.Count)];
 
             // show next question
+            isPlayerActive = false;
+            Cursor.lockState = CursorLockMode.Confined;
+
             GameObject ui = keyUI[correctQuestions];
-            ui.GetComponentInChildren<TextMeshPro>(true).SetText(currentQuestion.question);
+            ui.GetComponentInChildren<TextMeshProUGUI>(true).SetText(currentQuestion.question);
             ui.SetActive(true);
 
         }
-        else
+        else if (!firstInteraction)
         {
-            // cheems modification 
-            if (!firstInteraction) {
-                wrong.SetActive(true);
-                StopAllCoroutines();
-                StartCoroutine(deactivateAfterDelay(wrong, 2f));
-            } else {
-                // cheems addition
-                print("go press the door");
-                press_door.SetActive(true);
-                StopAllCoroutines();
-                StartCoroutine(deactivateAfterDelay(press_door, 2f));
-            }
-            
+            wrong.SetActive(true);
+            StopAllCoroutines();
+            StartCoroutine(deactivateAfterDelay(wrong, 2f));
         }
     }
 

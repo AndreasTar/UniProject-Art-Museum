@@ -19824,7 +19824,7 @@ Canvas:
   m_RenderMode: 0
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
-  m_PixelPerfect: 0
+  m_PixelPerfect: 1
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
@@ -26264,19 +26264,19 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 1234544575}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 3cb809a08af1d654783c253d25837ecf, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 140.74701
+      value: 138.65488
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3cb809a08af1d654783c253d25837ecf, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.000022888184
+      value: -9.117645
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3cb809a08af1d654783c253d25837ecf, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -54.957523
+      value: 298.17184
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3cb809a08af1d654783c253d25837ecf, type: 3}
       propertyPath: m_LocalRotation.w
@@ -26284,7 +26284,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3cb809a08af1d654783c253d25837ecf, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3cb809a08af1d654783c253d25837ecf, type: 3}
       propertyPath: m_LocalRotation.y
@@ -26327,6 +26327,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3cb809a08af1d654783c253d25837ecf, type: 3}
+--- !u!4 &1051703809 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 3cb809a08af1d654783c253d25837ecf, type: 3}
+  m_PrefabInstance: {fileID: 1051703808}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1052383154
 GameObject:
   m_ObjectHideFlags: 0
@@ -30726,6 +30731,7 @@ Transform:
   - {fileID: 113909349}
   - {fileID: 8891792828446800657}
   - {fileID: 320152934}
+  - {fileID: 1051703809}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1236017369
@@ -62536,4 +62542,3 @@ SceneRoots:
   - {fileID: 1174384577}
   - {fileID: 1120623102}
   - {fileID: 510092355}
-  - {fileID: 1051703808}
