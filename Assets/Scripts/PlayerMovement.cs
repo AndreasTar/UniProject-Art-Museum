@@ -27,14 +27,11 @@ public class PlayerMovement : MonoBehaviour
     List<Question> questions = new List<Question>();
     Question currentQuestion;
 
-    Vector3 pos;    // FOR DEBUG, WILL REMOVE
-    Vector3 rot;    // FOR DEBUG, WILL REMOVE
-    Vector3 forw;   // FOR DEBUG, WILL REMOVE
-
     // very stupid and hacky way to do it but yolo lmfao
     public GameObject intro;
     public GameObject instr;
     public GameObject exit;
+    public GameObject wrong;
 
     public GameObject k0;
     public GameObject k1;
@@ -69,7 +66,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.DrawRay(pos, forw*80);
+        Gizmos.DrawRay( gameObject.GetComponentInChildren<Camera>().transform.position, 
+                        gameObject.GetComponentInChildren<Camera>().transform.forward * 80);
         Gizmos.DrawSphere(rayInfo.point, 0.5f);
     }
 
@@ -77,6 +75,8 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Escape)) Application.Quit();
+
         if (!isPlayerActive)
         {
             if (Input.GetButtonDown("KB Interact") && !intro.activeSelf && !instr.activeSelf)
@@ -88,16 +88,13 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
-        pos = gameObject.GetComponentInChildren<Camera>().transform.position;               // FOR DEBUG, WILL REMOVE
-        rot = transform.rotation.eulerAngles;   // FOR DEBUG, WILL REMOVE
-        forw = gameObject.GetComponentInChildren<Camera>().transform.forward;               // FOR DEBUG, WILL REMOVE
+        Vector3 pos = gameObject.GetComponentInChildren<Camera>().transform.position;
+        Vector3 forw = gameObject.GetComponentInChildren<Camera>().transform.forward;
 
         if (Input.GetButtonDown("KB Interact"))
         {
-            Debug.Log("hmmmmmmm?");
             if (Physics.Raycast(pos, forw, out rayInfo, 80.0f))
             {
-                Debug.Log("pew");
                 if (rayInfo.transform.gameObject.CompareTag("Exhibit"))
                 {
                     // store the painting info for the question
@@ -106,13 +103,6 @@ public class PlayerMovement : MonoBehaviour
                 else if (rayInfo.transform.gameObject.CompareTag("Door"))
                 {
                     handleDoorInteraction();
-                }
-                else if (rayInfo.transform.gameObject.CompareTag("Player"))
-                {
-                    Debug.Log("hitting the player");
-                }
-                else { 
-                    Debug.Log("idk what i hit"); 
                 }
             }
         }
@@ -168,7 +158,7 @@ public class PlayerMovement : MonoBehaviour
 
         int ind = Int16.Parse(name);
         Debug.Log("LOOKING " + ind);
-        Debug.Log(currentQuestion.correctExhibitIndexes);
+        Debug.Log(currentQuestion.correctExhibitIndexes.ToString());
 
         if (currentQuestion.correctExhibitIndexes.Contains(ind))
         {
@@ -190,6 +180,12 @@ public class PlayerMovement : MonoBehaviour
             ui.GetComponentInChildren<TextMeshPro>(true).SetText(currentQuestion.question);
             ui.SetActive(true);
 
+        }
+        else
+        {
+            wrong.SetActive(true);
+            StopAllCoroutines();
+            StartCoroutine(deactivateAfterDelay(wrong, 2f));
         }
     }
 
@@ -251,7 +247,7 @@ public class PlayerMovement : MonoBehaviour
         
     }
 
-    private IEnumerator deactivateAfterDelay(GameObject g, int seconds) {
+    private IEnumerator deactivateAfterDelay(GameObject g, float seconds) {
         yield return new WaitForSeconds(seconds);
         g.SetActive(false);
     }
