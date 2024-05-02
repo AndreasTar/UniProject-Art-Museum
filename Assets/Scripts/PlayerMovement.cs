@@ -10,7 +10,7 @@ using static UnityEngine.Random;
 
 public class PlayerMovement : MonoBehaviour
 {
-    int MAX_QUESTIONS = 1;
+    int MAX_QUESTIONS = 10;
 
     Vector2 turn;
 
