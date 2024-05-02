@@ -10,6 +10,7 @@ using static UnityEngine.Random;
 
 public class PlayerMovement : MonoBehaviour
 {
+    int MAX_QUESTIONS = 1;
 
     Vector2 turn;
 
@@ -30,6 +31,7 @@ public class PlayerMovement : MonoBehaviour
     // very stupid and hacky way to do it but yolo lmfao
     public GameObject intro;
     public GameObject instr;
+    public GameObject preexit;
     public GameObject exit;
     public GameObject wrong;
 
@@ -82,6 +84,7 @@ public class PlayerMovement : MonoBehaviour
             if (Input.GetButtonDown("KB Interact") && !intro.activeSelf && !instr.activeSelf)
             {
                 keyUI[correctQuestions].SetActive(false);
+                preexit.SetActive(false);
                 isPlayerActive = true;
                 Cursor.lockState = CursorLockMode.Locked;
             }
@@ -190,11 +193,14 @@ public class PlayerMovement : MonoBehaviour
         {
             keyUI[correctQuestions].SetActive(false);
             correctQuestions ++;
-            if (correctQuestions == 1) // random number
+            isPlayerActive = false;
+            Cursor.lockState = CursorLockMode.Confined;
+            if (correctQuestions == MAX_QUESTIONS)
             {
                 // set door as exitable
                 currentQuestion = new Question("", new int[]{});
                 exitable = true;
+                preexit.SetActive(true);
                 return;
             }
             Debug.Log("CORRECT " + correctQuestions);
@@ -202,15 +208,14 @@ public class PlayerMovement : MonoBehaviour
             currentQuestion = questions[Range(0, questions.Count)];
 
             // show next question
-            isPlayerActive = false;
-            Cursor.lockState = CursorLockMode.Confined;
+
 
             GameObject ui = keyUI[correctQuestions];
             ui.GetComponentInChildren<TextMeshProUGUI>(true).SetText(currentQuestion.question);
             ui.SetActive(true);
 
         }
-        else if (!firstInteraction)
+        else if (!firstInteraction && correctQuestions < MAX_QUESTIONS)
         {
             wrong.SetActive(true);
             StopAllCoroutines();
