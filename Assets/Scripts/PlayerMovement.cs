@@ -167,6 +167,11 @@ public class PlayerMovement : MonoBehaviour
         questions.Add(new Question("Βρές ένα πίνακα ζωγραφισμένο με πενάκι", new int[] { 1, 2, 18} ));
         questions.Add(new Question("Βρές ένα πίνακα ζωγραφισμένο με ακρυλικό", new int[] { 17, 23, 24, 25, 32, 34, 37, 41, 45, 48} ));
 
+        questions.Add(new Question("Βρές ένα πίνακα του Τσαρούχη", new int[] { 28} ));
+        questions.Add(new Question("Βρές ένα πίνακα του Φασιανού", new int[] { 17, 23, 24, 25} ));
+        questions.Add(new Question("Βρές ένα πίνακα του Μυταρά", new int[] { 47 } ));
+
+
         // at the end
         currentQuestion = questions[Range(0, questions.Count)];
 
