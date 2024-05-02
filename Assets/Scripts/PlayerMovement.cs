@@ -83,10 +83,10 @@ public class PlayerMovement : MonoBehaviour
         {
             if (Input.GetButtonDown("KB Interact") && !intro.activeSelf && !instr.activeSelf)
             {
-                keyUI[correctQuestions].SetActive(false);
                 preexit.SetActive(false);
                 isPlayerActive = true;
                 Cursor.lockState = CursorLockMode.Locked;
+                if (correctQuestions < 10) keyUI[correctQuestions].SetActive(false);
             }
             return;
         }
@@ -200,7 +200,7 @@ public class PlayerMovement : MonoBehaviour
             correctQuestions ++;
             isPlayerActive = false;
             Cursor.lockState = CursorLockMode.Confined;
-            if (correctQuestions == MAX_QUESTIONS)
+            if (correctQuestions >= MAX_QUESTIONS)
             {
                 // set door as exitable
                 currentQuestion = new Question("", new int[]{});
