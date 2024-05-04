@@ -150,8 +150,8 @@ public class PlayerMovement : MonoBehaviour
         questions.Add(new Question("Βρές ένα πίνακα με λουλούδια", new int[] {29, 20, 8} ));
         questions.Add(new Question("Βρές ένα πίνακα με μια μοτοσικλέτα", new int[] { 41 } ));
         questions.Add(new Question("Βρές ένα πίνακα με 3 πορτρέτα", new int[] { 1, 31, 42 } ));
-        questions.Add(new Question("Βρές ένα πίνακα με μια ξαπλωμένη γυναίκα", new int[] { 2, 43 } ));
-        questions.Add(new Question("Βρές ένα πίνακα που περιέχει 2 παιδιά που παίζουν ποδόσφαιρο", new int[] { 36 } ));
+        questions.Add(new Question("Βρές ένα πίνακα με μια ξαπλωμένη γυναίκα", new int[] { 3, 43 } ));
+        // questions.Add(new Question("Βρές ένα πίνακα που περιέχει 2 παιδιά που παίζουν ποδόσφαιρο", new int[] { 36 } ));
         questions.Add(new Question("Βρές ένα πίνακα με μια βάρκα έξω από το νερό", new int[] { 37 } ));
         questions.Add(new Question("Βρές ένα πίνακα με ένα ναύτη", new int[] { 40, 5 } ));
         questions.Add(new Question("Βρές ένα πίνακα με 3 γυναικείες μορφές", new int[] { 42 } ));
@@ -170,7 +170,6 @@ public class PlayerMovement : MonoBehaviour
         questions.Add(new Question("Βρές ένα πίνακα του Τσαρούχη", new int[] { 28} ));
         questions.Add(new Question("Βρές ένα πίνακα του Φασιανού", new int[] { 17, 23, 24, 25} ));
         questions.Add(new Question("Βρές ένα πίνακα του Μυταρά", new int[] { 47 } ));
-
 
         // at the end
         currentQuestion = questions[Range(0, questions.Count)];
