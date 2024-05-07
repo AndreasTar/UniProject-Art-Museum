@@ -27883,7 +27883,8 @@ MonoBehaviour:
   charCont: {fileID: 1078341737}
   lockedHeight: 30
   intro: {fileID: 865831417}
-  instr: {fileID: 810584795}
+  instr1: {fileID: 810584795}
+  instr2: {fileID: 499935053}
   preexit: {fileID: 870245209}
   exit: {fileID: 384522575}
   wrong: {fileID: 467096549}
@@ -31521,7 +31522,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1078341732}
         m_TargetAssemblyTypeName: PlayerMovement, Assembly-CSharp
-        m_MethodName: handleInstructions
+        m_MethodName: handleSecondInstructions
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

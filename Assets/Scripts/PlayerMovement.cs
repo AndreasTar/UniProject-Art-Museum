@@ -10,7 +10,7 @@ using static UnityEngine.Random;
 
 public class PlayerMovement : MonoBehaviour
 {
-    int MAX_QUESTIONS = 10;
+    readonly int MAX_QUESTIONS = 10;
 
     Vector2 turn;
 
@@ -30,7 +30,8 @@ public class PlayerMovement : MonoBehaviour
 
     // very stupid and hacky way to do it but yolo lmfao
     public GameObject intro;
-    public GameObject instr;
+    public GameObject instr1;
+    public GameObject instr2;
     public GameObject preexit;
     public GameObject exit;
     public GameObject wrong;
@@ -63,7 +64,7 @@ public class PlayerMovement : MonoBehaviour
 
         makeAllQuestions();
 
-        instr.SetActive(true);
+        instr1.SetActive(true);
     }
 
     private void OnDrawGizmos()
@@ -81,7 +82,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (!isPlayerActive)
         {
-            if (Input.GetButtonDown("KB Interact") && !intro.activeSelf && !instr.activeSelf)
+            if (Input.GetButtonDown("KB Interact") && !intro.activeSelf && !instr1.activeSelf && !instr2.activeSelf)
             {
                 preexit.SetActive(false);
                 isPlayerActive = true;
@@ -260,7 +261,12 @@ public class PlayerMovement : MonoBehaviour
 
     public void handleInstructions()
     {
-        instr.SetActive(false);
+        instr1.SetActive(false);
+        instr2.SetActive(true);
+    }
+    public void handleSecondInstructions()
+    {
+        instr2.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
         isPlayerActive = true;
     }
