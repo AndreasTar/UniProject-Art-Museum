@@ -153,7 +153,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 124.900024, y: -50.799988}
+  m_AnchoredPosition: {x: 124.89844, y: -50.80078}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &209624749
@@ -176,7 +176,18 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Made by: TODO'
+  m_text: 'Made by:
+
+    Vasilikh Katogiannh
+
+    Xristianna Filh
+
+    Zoi Kouvaka
+
+    Andreas
+    Tarasidhs
+
+    Eyaggelia Iatridou'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: eeb6315f88180d144a7f744bc1905b42, type: 2}
   m_sharedMaterial: {fileID: 5722953317716607914, guid: eeb6315f88180d144a7f744bc1905b42, type: 2}
@@ -241,7 +252,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: -12.8051605, y: -11.289764, z: -49.742363, w: -432.00015}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -466,8 +477,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_UiScaleMode: 0
   m_ReferencePixelsPerUnit: 100
-  m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ScaleFactor: 0.8
+  m_ReferenceResolution: {x: 1000, y: 563}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
