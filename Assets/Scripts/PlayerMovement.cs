@@ -70,7 +70,7 @@ public class PlayerMovement : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.DrawRay( gameObject.GetComponentInChildren<Camera>().transform.position, 
-                        gameObject.GetComponentInChildren<Camera>().transform.forward * 80);
+                        gameObject.GetComponentInChildren<Camera>().transform.forward * 140);
         Gizmos.DrawSphere(rayInfo.point, 0.5f);
     }
 
@@ -97,7 +97,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetButtonDown("KB Interact"))
         {
-            if (Physics.Raycast(pos, forw, out rayInfo, 80.0f))
+            if (Physics.Raycast(pos, forw, out rayInfo, 140.0f))
             {
                 if (rayInfo.transform.gameObject.CompareTag("Exhibit"))
                 {
@@ -115,6 +115,8 @@ public class PlayerMovement : MonoBehaviour
         float vertical = Input.GetAxisRaw("KB Vertical");
 
         direction = new Vector3(transform.forward.x, 0, transform.forward.z) * vertical + transform.right * horizontal;
+
+        speed = Input.GetButton("KB Sprint") ? 100f : 50f;
 
         charCont.Move(direction.normalized * speed * Time.deltaTime);
 
