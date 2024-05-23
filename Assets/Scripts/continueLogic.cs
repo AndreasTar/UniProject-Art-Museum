@@ -15,9 +15,5 @@ public class continueLogic : MonoBehaviour
             Debug.Log("Changing scene");
             SceneManager.SetActiveScene(SceneManager.GetSceneByName("SampleScene"));
         }
-        else if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            Application.Quit();
-        }
     }
 }

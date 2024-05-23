@@ -22,19 +22,20 @@ public class PlayerMovement : MonoBehaviour
     Vector3 direction = Vector3.zero;
 
     int correctQuestions = 0;
-    bool firstInteraction = true;
 
-    //Question[] questions;
     List<Question> questions = new List<Question>();
     Question currentQuestion;
 
+    // on start, show
+    //   - 
+
     // very stupid and hacky way to do it but yolo lmfao
     public GameObject intro;
-    public GameObject instr1;
-    public GameObject instr2;
-    public GameObject preexit;
-    public GameObject exit;
+    public GameObject controls;
+    public GameObject instructions;
+    public GameObject escape;
     public GameObject wrong;
+    public GameObject exit;
 
     public GameObject k0;
     public GameObject k1;
@@ -46,6 +47,7 @@ public class PlayerMovement : MonoBehaviour
     public GameObject k7;
     public GameObject k8;
     public GameObject k9;
+    public GameObject preexit;
 
     GameObject[] keyUI;
 
@@ -64,7 +66,7 @@ public class PlayerMovement : MonoBehaviour
 
         makeAllQuestions();
 
-        instr1.SetActive(true);
+        intro.SetActive(true);
     }
 
     private void OnDrawGizmos()
@@ -78,38 +80,7 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape)) Application.Quit();
-
-        if (!isPlayerActive)
-        {
-            if (Input.GetButtonDown("KB Interact") && !intro.activeSelf && !instr1.activeSelf && !instr2.activeSelf)
-            {
-                preexit.SetActive(false);
-                isPlayerActive = true;
-                Cursor.lockState = CursorLockMode.Locked;
-                if (correctQuestions < 10) keyUI[correctQuestions].SetActive(false);
-            }
-            return;
-        }
-
-        Vector3 pos = gameObject.GetComponentInChildren<Camera>().transform.position;
-        Vector3 forw = gameObject.GetComponentInChildren<Camera>().transform.forward;
-
-        if (Input.GetButtonDown("KB Interact"))
-        {
-            if (Physics.Raycast(pos, forw, out rayInfo, 140.0f))
-            {
-                if (rayInfo.transform.gameObject.CompareTag("Exhibit"))
-                {
-                    // store the painting info for the question
-                    handleExhibitInteraction(rayInfo.transform.gameObject);
-                } 
-                else if (rayInfo.transform.gameObject.CompareTag("Door"))
-                {
-                    handleDoorInteraction();
-                }
-            }
-        }
+        if (manageInput()) return;
 
         float horizontal = Input.GetAxisRaw("KB Horizontal");
         float vertical = Input.GetAxisRaw("KB Vertical");
@@ -216,13 +187,12 @@ public class PlayerMovement : MonoBehaviour
 
             // show next question
 
-
             GameObject ui = keyUI[correctQuestions];
             ui.GetComponentInChildren<TextMeshProUGUI>(true).SetText(currentQuestion.question);
             ui.SetActive(true);
 
         }
-        else if (!firstInteraction && correctQuestions < MAX_QUESTIONS)
+        else if (correctQuestions < MAX_QUESTIONS)
         {
             wrong.SetActive(true);
             StopAllCoroutines();
@@ -232,18 +202,7 @@ public class PlayerMovement : MonoBehaviour
 
     void handleDoorInteraction()
     {
-        if (firstInteraction) {
-
-            Cursor.lockState = CursorLockMode.Confined;
-            isPlayerActive = false;
-
-            intro.SetActive(true);
-
-            firstInteraction = false;
-            // intro text displayed here
-            //StartCoroutine(deactivateAfterDelay(intro,4));
-        }
-        else if (exitable)
+        if (exitable)
         {
             // if all questions answered, show exit and exit
             Cursor.lockState = CursorLockMode.Confined;
@@ -263,39 +222,116 @@ public class PlayerMovement : MonoBehaviour
 
     public void handleInstructions()
     {
-        instr1.SetActive(false);
-        instr2.SetActive(true);
-    }
-    public void handleSecondInstructions()
-    {
-        instr2.SetActive(false);
-        Cursor.lockState = CursorLockMode.Locked;
-        isPlayerActive = true;
+        instructions.SetActive(false);
+        controls.SetActive(true);
     }
 
     public void handleIntro()
     {
         intro.SetActive(false);
-
-        k0.GetComponentInChildren<TextMeshProUGUI>(true).SetText(currentQuestion.question);
-        k0.SetActive(true);
-
-        //isPlayerActive = true;
-        //Cursor.lockState = CursorLockMode.Locked;
-
+        controls.SetActive(true);
     }
 
     public void handleExit()
     {
-        //temp
-        Debug.Log("exititiiningigg");
+        Debug.Log("exiting...");
         Application.Quit();
-        
+    }
+
+    bool first = true;
+
+    public void handleControls()
+    {
+        controls.SetActive(false);
+
+        if (first)
+        {
+            k0.GetComponentInChildren<TextMeshProUGUI>(true).SetText(currentQuestion.question);
+            k0.SetActive(true);
+            first = false;
+        }
+        else
+        {
+            isPlayerActive = true;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
     }
 
     private IEnumerator deactivateAfterDelay(GameObject g, float seconds) {
         yield return new WaitForSeconds(seconds);
         g.SetActive(false);
+    }
+
+    private bool manageInput()
+    {
+
+        if (isPlayerActive)
+        {
+            if (Input.GetButtonDown("Cancel"))
+            {
+                isPlayerActive = false;
+                Cursor.lockState = CursorLockMode.Confined;
+
+                if (correctQuestions < 10) keyUI[correctQuestions].SetActive(false);
+
+                instructions.SetActive(true);
+            }
+
+            if (Input.GetButtonDown("KB Question"))
+            {
+                isPlayerActive = false;
+                Cursor.lockState = CursorLockMode.Confined;
+
+                GameObject ui = keyUI[correctQuestions];
+                ui.GetComponentInChildren<TextMeshProUGUI>(true).SetText(currentQuestion.question);
+                ui.SetActive(true);
+            }
+
+            Vector3 pos = gameObject.GetComponentInChildren<Camera>().transform.position;
+            Vector3 forw = gameObject.GetComponentInChildren<Camera>().transform.forward;
+
+            if (Input.GetButtonDown("KB Interact"))
+            {
+                if (Physics.Raycast(pos, forw, out rayInfo, 140.0f))
+                {
+                    if (rayInfo.transform.gameObject.CompareTag("Exhibit"))
+                    {
+                        // store the painting info for the question
+                        handleExhibitInteraction(rayInfo.transform.gameObject);
+                    }
+                    else if (rayInfo.transform.gameObject.CompareTag("Door"))
+                    {
+                        handleDoorInteraction();
+                    }
+                }
+            }
+
+            return false;
+        }
+        else
+        { 
+            if (Input.GetButtonDown("Cancel"))
+            {
+                if (instructions.activeSelf)
+                {
+                    instructions.SetActive(false);
+                    isPlayerActive = true;
+                    Cursor.lockState = CursorLockMode.Locked;
+                }
+            }
+
+            if ((Input.GetButtonDown("KB Interact") || Input.GetButtonDown("KB Question")) && !intro.activeSelf && !instructions.activeSelf && !controls.activeSelf)
+            {
+                preexit.SetActive(false);
+                isPlayerActive = true;
+                Cursor.lockState = CursorLockMode.Locked;
+
+                if (correctQuestions < 10 && keyUI[correctQuestions].activeSelf)
+                    keyUI[correctQuestions].SetActive(false);
+            }
+
+            return true;
+        }        
     }
    
 }
